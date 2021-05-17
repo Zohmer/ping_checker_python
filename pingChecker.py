@@ -2,8 +2,8 @@ import subprocess, time, re
 from sys import platform
 
 pingResult = ""
-offline = True
-online = True
+online = False
+firstRun = True
 
 if platform.startswith("win32") or platform.startswith("cygwin"):
     pingCount = "/n"
@@ -18,18 +18,16 @@ delay = int(input())
 while(True):
     pingResult = str(subprocess.run(["ping", pingCount, "1", target], stdout=subprocess.PIPE, text=True))
 
-    timeout = True
     if re.search("from", pingResult, re.IGNORECASE) or re.search("From", pingResult, re.IGNORECASE) or re.search("FROM", pingResult, re.IGNORECASE):
         timeout = False
-        if offline:
-            offline = False
+        if online == False:
             online = True
             print("Target is online")
         
-    if timeout and online:
-        offline = True
+    elif online or firstRun:
         online = False
         print("Target is offline")
     
+    firstRun = False
     time.sleep(delay)
 
