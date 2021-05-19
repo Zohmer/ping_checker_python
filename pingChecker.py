@@ -18,7 +18,7 @@ delay = int(input())
 while(True):
     pingResult = str(subprocess.run(["ping", pingCount, "1", target], stdout=subprocess.PIPE, text=True))
 
-    if re.search("from", pingResult, re.IGNORECASE) or re.search("From", pingResult, re.IGNORECASE) or re.search("FROM", pingResult, re.IGNORECASE):
+    if re.search("from", pingResult, re.IGNORECASE):
         timeout = False
         if online == False:
             online = True
